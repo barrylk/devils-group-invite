@@ -5,12 +5,17 @@ export default defineConfig({
   root: './', // Ensure Vite looks in the right directory
   plugins: [react()],
   server: {
-    port: 5173,
+    host: '0.0.0.0', // ← bind to all network interfaces
+    port: process.env.PORT || 5173, // ← use Render's provided port
   },
   build: {
     outDir: 'dist',
     rollupOptions: {
       input: './public/index.html', // Explicitly set the entry point
+  },
+  preview: {
+    host: '0.0.0.0', // ← required for preview on Render
+    port: process.env.PORT || 4173 // ← same here
     },
   },
 });
