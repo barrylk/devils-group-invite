@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import sendToTelegram from "../utils/sendToTelegram";
+import ThankYouModal from "./ThankYouModal";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const Form = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,7 +38,8 @@ const Form = () => {
       // Send data to Telegram
       await sendToTelegram(formData);
 
-      setIsSubmitted(true);
+      setIsModalOpen(true); // Open the modal after successful submission
+
       setTimeout(() => {
         window.location.href = "https://t.me/your_telegram_group_link"; // Redirect to your Telegram group
       }, 2000);
@@ -160,6 +163,8 @@ const Form = () => {
           </div>
         </>
       )}
+
+      <ThankYouModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </form>
   );
 };
