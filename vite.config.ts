@@ -14,8 +14,10 @@ export default defineConfig({
       input: './public/index.html', // Explicitly set the entry point
   },
   preview: {
-    host: '0.0.0.0', // ← required for preview on Render
-    port: process.env.PORT || 4173 // ← same here
+    host: '0.0.0.0',
+    port: process.env.PORT || 4173,
+    allowedHosts: ['devils-group-invite.onrender.com'] // 👈 Add your Render domain here
     },
+    
   },
 });
