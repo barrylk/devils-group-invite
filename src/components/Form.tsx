@@ -54,57 +54,65 @@ const Form = () => {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit} className="form">
-        <h2>Devil's Group Invitation</h2>
+        <h2 className="form-title">Devil's Group Invitation</h2>
 
-        <label>Full Name:</label>
-        <input
-          type="text"
-          placeholder="First Name"
-          value={fullName.firstName}
-          onChange={(e) =>
-            setFullName({ ...fullName, firstName: e.target.value })
-          }
-          required
-        />
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={fullName.lastName}
-          onChange={(e) =>
-            setFullName({ ...fullName, lastName: e.target.value })
-          }
-          required
-        />
+        <label className="form-label">Full Name:</label>
+        <div className="name-inputs">
+          <input
+            type="text"
+            placeholder="First Name"
+            value={fullName.firstName}
+            onChange={(e) =>
+              setFullName({ ...fullName, firstName: e.target.value })
+            }
+            className="form-input"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={fullName.lastName}
+            onChange={(e) =>
+              setFullName({ ...fullName, lastName: e.target.value })
+            }
+            className="form-input"
+            required
+          />
+        </div>
 
-        <label>Age:</label>
+        <label className="form-label">Age:</label>
         <input
           type="number"
           value={age}
           onChange={(e) => setAge(e.target.value)}
+          className="form-input"
           required
         />
 
-        <label>Telegram Username:</label>
+        <label className="form-label">Telegram Username:</label>
         <input
           type="text"
           value={tgUsername}
           onChange={(e) => setTgUsername(e.target.value)}
+          className="form-input"
           required
         />
 
-        <label>Phone Number:</label>
+        <label className="form-label">Phone Number:</label>
         <input
           type="text"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          className="form-input"
           required
         />
 
-        <label>City/Town:</label>
+        <label className="form-label">City/Town:</label>
         <input
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
+          className="form-input"
           required
         />
 
