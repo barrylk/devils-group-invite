@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { sendToTelegram } from "../utils/sendtotelegram";
-import ThankYouModal from "./thankyoumodal";
+import { sendToTelegram } from "../utils/sendtoTelegram";
+import ThankYouModal from "./ThankYouModal";
 
 const Form = () => {
   const [fullName, setFullName] = useState({ firstName: "", lastName: "" });
