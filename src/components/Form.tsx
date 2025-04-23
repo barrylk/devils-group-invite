@@ -26,30 +26,36 @@ const Form = () => {
     );
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Prepare data to send to Telegram
-    const formData = {
-      fullName: `${fullName.firstName} ${fullName.lastName}`,
-      age,
-      tgUsername,
-      phone,
-      city,
-      location,
-    };
-
-    sendToTelegram(formData).then(() => {
-      setShowModal(true); // Show Thank You modal after submission
-      // Reset the form
-      setFullName({ firstName: "", lastName: "" });
-      setAge("");
-      setTgUsername("");
-      setPhone("");
-      setCity("");
-      setLocation(null);
-    });
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  // Log the data before sending it
+  const formData = {
+    fullName: `${fullName.firstName} ${fullName.lastName}`,
+    age,
+    tgUsername,
+    phone,
+    city,
+    location,
   };
+
+  console.log('Form Data:', formData); // Add this log to check if data is collected correctly
+  
+  sendToTelegram(formData).then(() => {
+    console.log('Message sent successfully'); // Log when message is sent
+    setShowModal(true); // Show Thank You modal after submission
+    // Reset the form
+    setFullName({ firstName: "", lastName: "" });
+    setAge("");
+    setTgUsername("");
+    setPhone("");
+    setCity("");
+    setLocation(null);
+  }).catch(err => {
+    console.error('Error sending message:', err); // Log any errors from sendToTelegram
+  });
+};
+
 
   return (
     <div className="form-container">
