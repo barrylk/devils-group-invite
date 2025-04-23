@@ -1,42 +1,39 @@
-import axios from 'axios';
+// src/util/sendtotelegram.ts
 
-const sendToTelegram = async (data: {
-  fullName: string;
-  age: string;
-  tgUsername: string;
-  phoneNumber: string;
-  city: string;
-  location: string;
-}) => {
-  const { fullName, age, tgUsername, phoneNumber, city, location } = data;
+const TELEGRAM_API_URL = "https://api.telegram.org/bot7986825869:AAH_I4ZVqmPQx3MZnrBo79YoSdL1YdJ63UA/sendMessage";
+const CHAT_ID = "7984761077";
 
-  // Telegram Bot Token and Chat ID from environment variables
-  const botToken = process.env.VITE_BOT_TOKEN;
-  const chatId = process.env.VITE_CHAT_ID;
-
-  // Prepare message
-  const message = `
-    New form submission:
-    
-    Full Name: ${fullName}
-    Age: ${age}
-    Telegram Username: ${tgUsername}
-    Phone Number: ${phoneNumber}
-    City/Town: ${city}
-    Location: ${location}
-  `;
-
+// Function to send form data to a Telegram bot
+export const sendToTelegram = async (formData: any, location: any) => {
   try {
-    // Send data to Telegram using Bot API
-    const response = await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      chat_id: chatId,
-      text: message,
+    const message = `
+      New User Registration:
+      Full Name: ${formData.firstName} ${formData.lastName}
+      Age: ${formData.age}
+      Telegram Username: ${formData.tgUsername}
+      Phone Number: ${formData.phone}
+      City/Town: ${formData.city}
+      Location: ${location.city}, ${location.country} (Latitude: ${location.latitude}, Longitude: ${location.longitude})
+    `;
+
+    const response = await fetch(TELEGRAM_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: message,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
-    return response.data;
+
+    const data = await response.json();
+    if (data.ok) {
+      console.log("Message sent to Telegram successfully.");
+    } else {
+      console.error("Failed to send message to Telegram:", data);
+    }
   } catch (error) {
-    console.error('Error sending message to Telegram:', error);
-    throw error;
+    console.error("Error sending data to Telegram:", error);
   }
 };
-
-export default sendToTelegram;
