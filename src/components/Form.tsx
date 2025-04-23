@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sendToTelegram } from "../utils/sendtoTelegram";
+import { sendToTelegram } from "../utils/sendToTelegram";
 import ThankYouModal from "./ThankYouModal";
 
 const Form = () => {
