@@ -1,39 +1,43 @@
-// src/util/sendtotelegram.ts
+export async function sendToTelegram(data: any) {
+  const BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+  const CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
 
-const TELEGRAM_API_URL = "https://api.telegram.org/bot7986825869:AAH_I4ZVqmPQx3MZnrBo79YoSdL1YdJ63UA/sendMessage";
-const CHAT_ID = "7984761077";
+  if (!BOT_TOKEN || !CHAT_ID) {
+    console.error("Missing Telegram bot token or chat ID in environment variables.");
+    return;
+  }
 
-// Function to send form data to a Telegram bot
-export const sendToTelegram = async (formData: any, location: any) => {
+  const message = `
+🚨 New Invite Submission 🚨
+
+👤 Name: ${data.fullName}
+🎂 Age: ${data.age}
+📞 Phone: ${data.phone}
+💬 Telegram: @${data.tgUsername}
+🏙️ City: ${data.city}
+📍 Location: ${data.location?.latitude}, ${data.location?.longitude}
+  `;
+
   try {
-    const message = `
-      New User Registration:
-      Full Name: ${formData.firstName} ${formData.lastName}
-      Age: ${formData.age}
-      Telegram Username: ${formData.tgUsername}
-      Phone Number: ${formData.phone}
-      City/Town: ${formData.city}
-      Location: ${location.city}, ${location.country} (Latitude: ${location.latitude}, Longitude: ${location.longitude})
-    `;
-
-    const response = await fetch(TELEGRAM_API_URL, {
-      method: 'POST',
+    const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         chat_id: CHAT_ID,
         text: message,
+        parse_mode: "Markdown",
       }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
     });
 
-    const data = await response.json();
-    if (data.ok) {
-      console.log("Message sent to Telegram successfully.");
-    } else {
-      console.error("Failed to send message to Telegram:", data);
+    if (!response.ok) {
+      console.error("Failed to send Telegram message:", await response.text());
+      throw new Error("Telegram API error");
     }
-  } catch (error) {
-    console.error("Error sending data to Telegram:", error);
+
+    console.log("Message sent to Telegram successfully.");
+  } catch (err) {
+    console.error("sendToTelegram error:", err);
   }
-};
+}
