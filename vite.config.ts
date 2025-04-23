@@ -1,14 +1,16 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  root: './', // Ensure this points to the root of your project
+  root: './', // Ensure Vite looks in the right directory
   plugins: [react()],
   server: {
-    port: 5173
+    port: 5173,
   },
   build: {
-    outDir: 'dist'
-  }
+    outDir: 'dist',
+    rollupOptions: {
+      input: './public/index.html', // Explicitly set the entry point
+    },
+  },
 });
